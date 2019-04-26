@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="webjars/jquery/3.3.1/jquery.js"></script>
+    <script>
+        function out() {
+            if(confirm("确定要退出吗？")){
+                location.href="loginout";
+                return true;
+            }else{
+                return false;
+            }
+        }
+    </script>
+</head>
+<body style="text-align: center">
+<p>账号：<span th:text="${session.banknum}"></span> <a href="javascript:;" onclick="out();">退出</a></p>
+<div>
+    <a th:href="@{'selmoney'}">查询余额</a>
+    <a th:href="@{'toexpense'}">转账</a>
+    <a th:href="@{'time'}">查询交易记录</a>
+    <a th:href="@{'toupdpwd'}">修改密码</a>
+</div>
+<div style="border: black 1px solid;width: 500px;height: 500px;margin: 0 auto;padding: auto">
+    <div style="margin: 10px auto;">
+        <h1>当前操作：查询交易记录。请选择时间范围后点“查询”按钮</h1>
+        <form action="totime" method="post">
+            查询日期范围：
+            <input type="date" name="date1" th:value="${session.date1}">
+            到
+            <input type="date" name="date2" th:value="${session.date2}">
+            <input type="submit" value="查询">
+        </form>
+            <table border="1" style="margin: 0 auto">
+                <tr style="background-color: cornflowerblue">
+                    <td>交易日期</td>
+                    <td>支出</td>
+                    <td>存入</td>
+                    <td>账户余额</td>
+                    <td>交易类型</td>
+                    <td>备注</td>
+                </tr>
+                <span th:if="${userlist.size()==0}">
+                    <tr><h1>没有数据</h1></tr>
+                </span>
+                <span th:if="${userlist.size()!=0}">
+                    <tr th:each="userlist:${userlist}" th:bgcolor="${userlistStat.even}?yellow:''">
+                        <td th:text="${userlist.transaction_date}"></td>
+                        <td th:text="${userlist.expense}"></td>
+                        <td th:text="${userlist.income}"></td>
+                        <td th:text="${userlist.balance}"></td>
+                        <td th:text="${userlist.transaction_type}"></td>
+                        <td th:text="${userlist.remark}"></td>
+                    </tr>
+                </span>
+            </table>
+        <span th:if="${page.pageno>1}">
+            <a th:href="@{'totime?pageno='+1}">首页</a><a th:href="@{'totime?pageno='+${page.pageno-1}}">上一页</a>
+        </span>
+        <span th:if="${page.pageno<page.pagetotalCount}">
+            <a th:href="@{'totime?pageno='+${page.pageno+1}}">下一页</a><a th:href="@{'totime?pageno='+${page.pagetotalCount}}">尾页</a>
+        </span>
+        第<span th:text="${page.pageno}"></span>页/共<span th:text="${page.pagetotalCount}"></span>页/共<span th:text="${page.pageCount}"></span>条数据
+    </div>
+</div>
+</body>
+</html>

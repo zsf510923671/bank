@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <script src="webjars/jquery/3.3.1/jquery.js"></script>
+    <script>
+        function chanage() {
+            $(".gencode").attr("src","gencode?aa="+new Date().getTime());
+        }
+    </script>
+</head>
+<body>
+    <form action="dologin" method="post">
+        卡号：<input type="text" name="codenum"><br>
+        密码：<input type="text" name="pwd"><br>
+        验证码：<input type="text" name="gencode">
+        <img src="gencode" class="gencode" onclick="chanage();"><br>
+        <input type="submit" value="登录">
+    </form>
+<span th:text="${error}"></span>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="webjars/jquery/3.3.1/jquery.js"></script>
+    <script>
+        function out() {
+            if(confirm("确定要退出吗？")){
+                location.href="loginout";
+                return true;
+            }else{
+                return false;
+            }
+        }
+    </script>
+</head>
+<body style="text-align: center">
+    <p>账号：<span th:text="${session.banknum}"></span> <a href="javascript:;" onclick="out();">退出</a></p>
+    <div>
+        <a th:href="@{'selmoney'}">查询余额</a>
+        <a th:href="@{'toexpense'}">转账</a>
+        <a th:href="@{'time'}">查询交易记录</a>
+        <a th:href="@{'toupdpwd'}">修改密码</a>
+    </div>
+    <div style="border: black 1px solid;width: 500px;height: 500px;margin: 0 auto;padding: auto">
+        <div style="margin: 10px auto;">
+            <h1>当前操作：转账。请输入转入账号和金额后点“转账”按钮</h1>
+            <form action="expense" method="post">
+                转入账号：<input type="text" name="codenum"><br>
+                转入金额：<input type="text" name="money"><br>
+                <input type="submit" value="转账">
+            </form>
+            <span th:text="${session.error}"></span>
+        </div>
+    </div>
+</body>
+</body>
+</html>

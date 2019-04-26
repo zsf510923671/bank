@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="webjars/jquery/3.3.1/jquery.js"></script>
+    <script>
+        function out() {
+            if(confirm("确定要退出吗？")){
+                location.href="loginout";
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        $(function () {
+            $("[name=newpwd]").blur(function () {
+                var pwd=$(this).val();
+                if(pwd==""){
+                    alert("请输入要修改的密码！");
+                }else if(pwd.length!=6){
+                    alert("密码只能是6位数字");
+                }
+            })
+
+            $("[name=pwd2]").blur(function () {
+                var pwd2=$(this).val();
+                var pwd=$("[name=newpwd]").val();
+                if(pwd2==""){
+                    alert("请再次输入密码！");
+                }else if(pwd2!=pwd){
+                    alert("两次密码输入不一致，请重新输入");
+                }
+            })
+        })
+    </script>
+</head>
+<body style="text-align: center">
+<p>账号：<span th:text="${session.banknum}"></span> <a href="javascript:;" onclick="out();">退出</a></p>
+<div>
+    <a th:href="@{'selmoney'}">查询余额</a>
+    <a th:href="@{'toexpense'}">转账</a>
+    <a th:href="@{'time'}">查询交易记录</a>
+    <a th:href="@{'toupdpwd'}">修改密码</a>
+</div>
+<div style="border: black 1px solid;width: 500px;height: 500px;margin: 0 auto;padding: auto">
+    <div style="margin: 10px auto;">
+        <h1>当前操作：修改密码。请选择时间范围后点“修改”按钮</h1>
+        <form action="updpwd" method="post">
+            请输入现在的密码：<input type="text" name="pwd1"><br>
+            请输入新密码：<input type="text" name="newpwd"><br>
+            请再次输入密码：<input type="text" name="pwd2"><br>
+            <input type="submit" value="修改">
+        </form>
+        <span th:text="${error}"></span>
+    </div>
+</div>
+</body>
+</html>
